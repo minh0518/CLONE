@@ -1,0 +1,301 @@
+:root{
+    /* color */
+    --white-color:#fff;
+    --black-color:#140a00;
+    --blue-color:#045fd4;
+    --red-color:#ff0000;
+    --grey-dark-color: #909090;
+    --grey-light-color:#e0e0e0;
+
+    /* size */ 
+    --padding:12px;
+    --avatar-size:36px;
+    
+    /* font size */
+    --font-large:18px;
+    --font-medium:14px;
+    --font-small:12px;
+    --font-micro:10px;
+
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+
+ul{
+    list-style: none;
+}
+
+
+button,button:focus{
+    border: none;
+    cursor: pointer;
+    outline: none;
+    background:transparent;
+}
+
+
+
+/* 화면 스타일링 시작 */
+
+
+
+
+/* header */
+
+header{
+    display: flex;
+    justify-content: space-between;
+    padding: var(--padding);
+    background-color: var(--black-color);
+    color: var(--white-color);
+}
+
+
+header .logo{ 
+    font-size: var(--font-large);
+}
+
+
+header .logo i {
+    color: var(--red-color);
+}
+
+/* li태그들에다가 적용할 것이니까 그 윗단계인 ul에다가 적용합니다 */
+header .icons ul{
+    display: flex;
+}
+header .icons i{
+ color: var(--white-color);
+}
+
+
+header .icons .fa-search{
+    margin-right: var(--padding);
+}
+
+
+/* Video Player */
+
+.player{
+    text-align: center;
+    background-color: var(--black-color);
+    position: sticky;
+    top: 0;
+
+}
+.player video{
+
+    width:100%;
+    height:100%;
+
+
+    max-width:1000px;
+
+}
+
+
+
+
+/* Video Info */
+
+body > .info{
+
+    padding: var(--padding);   
+} 
+
+.info .metadata .hashtags{
+    display: flex;
+    font-size: var(--font-small);
+    color: var(--blue-color);
+}
+
+.info .metadata .hashtags li{ 
+    margin-right: var(--padding);
+}
+
+
+.info .metadata .titleAndButton{
+    display: flex;
+}
+
+
+/* clamp가 없을때 */
+.info .metadata .titleAndButton .title{
+    font-size: var(--font-medium);
+    margin-right: var(--padding);
+}
+
+/* clamp가 있을때 */
+.info .metadata .titleAndButton .title.clamp{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+
+.info .metadata  .titleAndButton .moreBtn{
+    height: 100%;
+    transition: transform 300ms ease-in-out;
+}
+
+.info .metadata  .titleAndButton .moreBtn.clicked{
+    transform: rotate(180deg);
+}
+
+.info .views{
+    font-size: var(--font-small);
+    color: var(--grey-dark-color);
+}
+
+
+
+/* Action Buttons */
+.info .actions{
+   
+    display: flex;
+    justify-content: space-around;
+    
+   
+    margin: var(--padding) 0;
+}
+
+.info .actions button{
+    display: flex;
+    flex-direction: column;
+    
+
+    font-size: var(--font-small);
+    color: var(--grey-dark-color);
+}
+
+
+.info .actions button i{
+
+    
+    margin: 0 auto;
+    margin-bottom: calc(var(--padding)/2);
+    
+
+    font-size: 16px;
+}
+
+.info .actions button i.active{
+    color: var(--blue-color);
+}
+
+
+
+
+ .channel{
+    display: flex;
+    justify-content: space-between;
+
+    border-top: 1px solid var(--grey-light-color);
+    border-bottom: 1px solid var(--grey-light-color);
+ }
+ .channel .metadata{
+    display: flex;
+
+    
+    align-items: center;
+    
+ }
+ .channel .metadata img{
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: 50%;
+ }
+
+ 
+ .channel .metadata .info{
+    display: flex;
+    flex-direction: column;
+ }
+
+ 
+ .channel .metadata .info .subscribers{
+    font-size: var(--font-small);
+    color: var(--grey-dark-color);
+ }
+
+
+
+ .channel .subscribe{
+    text-transform: uppercase;
+    color: var(--red-color);
+    font-size: var(--font-medium);
+ }
+
+
+
+
+ /* Other Videos */
+.upNext{
+    padding: 0 var(--padding);
+}
+
+.upNext > .title{
+    font-size: var(--font-medium);
+    color: var(--grey-dark-color);
+    margin-bottom: calc(var(--padding)/2);
+}
+
+.upNext .item{
+    display: flex;
+    margin-top: var(--padding);
+}
+
+.upNext .item .img img{
+    width: 100%;
+}
+
+
+.upNext .item .img{
+    flex: 1 1 35%;
+    margin-right: var(--padding);
+    
+}
+
+
+
+
+.upNext .item .info{
+    flex: 1 1 60%;
+}
+
+.upNext .item .moreBtn{
+    flex: 1 1 5%;
+}
+
+
+
+.upNext .item .info{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*  우선 전체 레이아웃을 column으로 해줌*/
+.infoAndUpNext{
+    display: flex;
+    flex-direction: column;
+}
+
+/* 화면이 768px 이상일때 레이아웃을 row 적용*/
+@media screen and (min-width: 768px){
+    .infoAndUpNext{
+        flex-direction: row;
+        margin: var(--padding);
+    }
+}

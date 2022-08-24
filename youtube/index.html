@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script
+      src="https://kit.fontawesome.com/2c83a9dd3f.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&family=Source+Sans+Pro:ital,wght@0,300;1,200&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="main.js" defer></script>
+  </head>
+  <body>
+    <!-- header -->
+    <header>
+      <div class="logo">
+        <i class="fab fa-youtube"></i>
+        <span class="title">Youtube</span>
+      </div>
+      <div class="icons">
+        <ul>
+          <li>
+            <a href="#"><i class="fas fa-search"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fas fa-ellipsis-v"></i></a>
+          </li>
+        </ul>
+        <!-- 이렇게 해도 되고 그냥 button태그 2개를 연속해서 해도 됩니다 -->
+      </div>
+    </header>
+
+    <!-- Video Player -->
+    <section class="player">
+      <video controls src="./video/match.mp4"></video>
+    </section>
+
+    <!-- New! -->
+    <div class="infoAndUpNext">
+
+      <!-- Video Info -->
+      <section class="info">
+        <!-- 영상 제목,정보들 -->
+        <div class="metadata">
+          <!-- 해시태그 -->
+          <ul class="hashtags">
+            <li>#WelshCorgi</li>
+            <li>#웨일스-귀염둥이</li>
+            <li>#귀여운웰시코기</li>
+          </ul>
+          <!-- 제목 , 더보기 버튼 -->
+          <div class="titleAndButton">
+            <span class="title clamp">
+              웰시코기는귀여워웰시코기는귀여워웰시코기는귀여워웰시코기는귀여워웰시코기는귀여워
+              귀여운웰시코기귀여운웰시코기귀여운웰시코기귀여운웰시코기귀여운웰시코기귀여운웰시코기
+            </span>
+            <button class="moreBtn"><i class="fas fa-caret-down"></i></button>
+          </div>
+          <!-- 조회수 -->
+          <span class="views">1M view 1months ago</span>
+        </div>
+
+        <!-- 좋아요 , 싫어요 등 버튼들 -->
+        <ul class="actions">
+          <li>
+            <button><i class="active fas fa-thumbs-up"></i>1K</button>
+          </li>
+          <li>
+            <button><i class="fas fa-thumbs-down"></i>3</button>
+          </li>
+          <li>
+            <button><i class="fas fa-share"></i>Share</button>
+          </li>
+          <li>
+            <button><i class="fas fa-plus"></i>Save</button>
+          </li>
+          <li>
+            <button><i class="fab fa-font-awesome-flag"></i>Report</button>
+          </li>
+        </ul>
+
+        <!-- 채널 정보 -->
+        <div class="channel">
+          <!-- 왼쪽에 사진,구독자 -->
+          <div class="metadata">
+            <img src="./image/유튜버코기.PNG" alt="" />
+            <div class="">
+              <span class="name">코기튜브</span>
+              <span class="subscribers">100K subscribers</span>
+            </div>
+          </div>
+          <button class="subscribe">subscribe</button>
+        </div>
+      </section>
+
+      <!-- Other Videos -->
+      <section class="upNext">
+        <span class="title">Up Next</span>
+        <!-- 연관 동영상들 -->
+        <ul>
+          <li class="item">
+            <div class="img">
+              <img src="./image/썸네일.jpg" alt="" />
+            </div>
+            <!-- 영상 썸네일 옆에 정보들 -->
+            <div class="info">
+              <span class="title">영화 오펜하이머 첫 스틸컷 공개!</span>
+              <span class="name">리뷰엉이</span>
+              <span class="views">32k views</span>
+            </div>
+            <button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+          </li>
+          <li class="item">
+            <div class="img">
+              <img src="./image/썸네일.jpg" alt="" />
+            </div>
+            <div class="info">
+              <span class="title">영화 오펜하이머 첫 스틸컷 공개!</span>
+              <span class="name">천재이승국</span>
+              <span class="views">32k views</span>
+            </div>
+            <button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+          </li>
+          <li class="item">
+            <div class="img">
+              <img src="./image/썸네일.jpg" alt="" />
+            </div>
+            <div class="info">
+              <span class="title">영화 오펜하이머 첫 스틸컷 공개!</span>
+              <span class="name">영민하다</span>
+              <span class="views">32k views</span>
+            </div>
+            <button class="moreBtn"><i class="fas fa-ellipsis-v"></i></button>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </body>
+</html>
