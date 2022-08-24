@@ -12,7 +12,7 @@ const NewsPage = () => {
       <Categories />
       <NewsList category={category} />
     </div>
-  ) // adsa
+  )
 }
 
 export default NewsPage
