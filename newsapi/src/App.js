@@ -10,7 +10,7 @@ const App = () => {
          <Route path="/" element={<NewsPage/>}/>
          <Route path="/:category" element={<NewsPage/>}/>
       </Routes>
-    </>
+    </>  
   )
 }
 export default App
