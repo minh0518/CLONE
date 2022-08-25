@@ -1,11 +1,32 @@
-import React, { useState } from 'react'
-import { collection, addDoc } from 'firebase/firestore'
+import React, { useEffect, useState } from 'react'
+import { collection, addDoc , getDocs } from 'firebase/firestore'
 import { dbService } from 'fbase'
 
 const Home = () => {
   const [nweet, setNweet] = useState('')
-  
+  const [nweets,setNweets]=useState([])
 
+  useEffect(()=>{
+    const getNweets=async()=>{
+      const dbnweets= await getDocs(collection(dbService,'tweets'))
+      dbnweets.forEach(i=>{
+
+        const nweetObj={
+          ...i.data(),
+          id:i.id //기본적으로 Firestore에서 사용하면 id가 자동저장된다고 했었습니다
+        }  
+        
+        setNweets(prev=>[nweetObj,...prev])
+        //최초에는 nweets가 비었으므로 prev는 아무 것도 없지만
+        //그 다음부터 추가되는 것이 있으면 그 직전의 값을 가지게 됨
+
+      })
+      
+    }
+    getNweets()
+  },[])
+
+  console.log(nweets)
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -34,6 +55,14 @@ const Home = () => {
         ></input>
         <input type="submit" value="Tweet" />
       </form>
+      <div>
+        {/* 트위팅 내용들을 가져옴 */}
+        {nweets.map(i=>(
+          <div key={i.id}>
+            <h4>{i.nweet}</h4>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
