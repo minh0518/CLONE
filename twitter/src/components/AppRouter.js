@@ -5,7 +5,7 @@ import Auth from '../routes/Auth'
 import Home from '../routes/Home'
 import Navigation from './Navigation'
 
-const AppRouter = ({isLoggedIn}) => {
+const AppRouter = ({userObj,isLoggedIn}) => {
 
   return (
     <Router>
@@ -14,7 +14,7 @@ const AppRouter = ({isLoggedIn}) => {
       <Routes>
         {isLoggedIn ? (
           <>
-            <Route path="/" element={<Home />}></Route>
+            <Route path="/" element={<Home userObj={userObj}/>}></Route>
             <Route path="/profile" element={<Profile/>}></Route>
           </>
           // 여러개가 있으니까 Fragment로 감싸줘야 함

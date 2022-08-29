@@ -1,38 +1,45 @@
 import React, { useEffect, useState } from 'react'
-import { collection, addDoc , getDocs } from 'firebase/firestore'
+import {
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+} from 'firebase/firestore'
 import { dbService } from 'fbase'
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('')
-  const [nweets,setNweets]=useState([])
+  const [nweets, setNweets] = useState([])
 
-  useEffect(()=>{
-    const getNweets=async()=>{
-      const dbnweets= await getDocs(collection(dbService,'tweets'))
-      dbnweets.forEach(i=>{
+  //console.log(userObj)
 
-        const nweetObj={
-          ...i.data(),
-          id:i.id //기본적으로 Firestore에서 사용하면 id가 자동저장된다고 했었습니다
-        }  
-        
-        setNweets(prev=>[nweetObj,...prev])
-        //최초에는 nweets가 비었으므로 prev는 아무 것도 없지만
-        //그 다음부터 추가되는 것이 있으면 그 직전의 값을 가지게 됨
+  useEffect(() => {
 
-      })
-      
-    }
-    getNweets()
-  },[])
+    const q = query(
+      collection(dbService, 'tweets'),
+      orderBy('createdAt', 'desc'), //asc나 desc로 오름차순,내림차순 설정가능
+    )
+    onSnapshot(q, (snapshot) => {
+      const nweetArray = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }))
+      //.docs는 객체들로 이뤄진 배열을 리턴합니다
 
-  console.log(nweets)
+      //console.log(nweetArray)
+      setNweets(nweetArray)
+    })
+  }, [])
+
+  //console.log(nweets)
 
   const onSubmit = async (e) => {
     e.preventDefault()
     const doc = await addDoc(collection(dbService, 'tweets'), {
-      nweet: nweet, //nweet만 적어도 됨. nweet 는 이 document의 key
+      text: nweet,
       createdAt: Date.now(),
+      creatorId: userObj.uid,
     })
     setNweet('')
   }
@@ -57,9 +64,9 @@ const Home = () => {
       </form>
       <div>
         {/* 트위팅 내용들을 가져옴 */}
-        {nweets.map(i=>(
+        {nweets.map((i) => (
           <div key={i.id}>
-            <h4>{i.nweet}</h4>
+            <h4>{i.text}</h4>
           </div>
         ))}
       </div>
