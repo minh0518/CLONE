@@ -7,6 +7,7 @@ import {
   orderBy,
 } from 'firebase/firestore'
 import { dbService } from 'fbase'
+import Nweet from 'components/Nweet'
 
 const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('')
@@ -65,9 +66,8 @@ const Home = ({ userObj }) => {
       <div>
         {/* 트위팅 내용들을 가져옴 */}
         {nweets.map((i) => (
-          <div key={i.id}>
-            <h4>{i.text}</h4>
-          </div>
+          <Nweet key={i.id} nweetObj={i} isOwner={i.creatorId=== userObj.uid}/>
+                                        // 여기에서 isOwner값을 넘겨줍니다
         ))}
       </div>
     </div>
