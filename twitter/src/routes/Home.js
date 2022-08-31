@@ -7,7 +7,10 @@ import {
   orderBy,
 } from 'firebase/firestore'
 import { dbService } from 'fbase'
+import { storageService } from 'fbase'
 import Nweet from 'components/Nweet'
+import { ref,uploadString } from "firebase/storage";
+import { v4 as uuidv4} from "uuid";
 
 const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('')
@@ -37,12 +40,17 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    const doc = await addDoc(collection(dbService, 'tweets'), {
-      text: nweet,
-      createdAt: Date.now(),
-      creatorId: userObj.uid,
-    })
-    setNweet('')
+    // const doc = await addDoc(collection(dbService, 'tweets'), {
+    //   text: nweet,
+    //   createdAt: Date.now(),
+    //   creatorId: userObj.uid,
+    // })
+    // setNweet('')
+
+    const fileRef=ref(storageService,`${userObj.uid}/${uuidv4()}`)
+    const response = await uploadString(fileRef,attachment,'data_url')
+    
+    //console.log(response)
   }
 
   const onChange = (e) => {
@@ -60,7 +68,7 @@ const Home = ({ userObj }) => {
 
     //파일이 바로 읽히진 않기 때문에 이벤트 리스너를 추가
     reader.onloadend = (finishedEvent) => {
-      console.log(finishedEvent)
+      //console.log(finishedEvent)
 
       const { currentTarget: result } = finishedEvent
 
