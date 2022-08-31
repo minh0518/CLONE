@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   collection,
   addDoc,
@@ -12,11 +12,11 @@ import Nweet from 'components/Nweet'
 const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('')
   const [nweets, setNweets] = useState([])
+  const [attachment, setAttachement] = useState()
 
   //console.log(userObj)
 
   useEffect(() => {
-
     const q = query(
       collection(dbService, 'tweets'),
       orderBy('createdAt', 'desc'), //asc나 desc로 오름차순,내림차순 설정가능
@@ -49,6 +49,35 @@ const Home = ({ userObj }) => {
     setNweet(e.target.value)
   }
 
+  const onFileChange = (e) => {
+    // console.log(e.target)
+    // console.log(e.target.files)
+
+    const theFile = e.target.files[0]
+    //console.log(theFile)
+
+    const reader = new FileReader()
+
+    //파일이 바로 읽히진 않기 때문에 이벤트 리스너를 추가
+    reader.onloadend = (finishedEvent) => {
+      console.log(finishedEvent)
+
+      const { currentTarget: result } = finishedEvent
+
+      setAttachement(result.result)
+    }
+    reader.readAsDataURL(theFile)
+  }
+
+  const onClearAttachment = (e) => {
+    setAttachement(null)
+    fileInput.current.value=''
+  }
+
+
+  const fileInput=useRef()
+
+
   return (
     <div>
       <form onSubmit={onSubmit}>
@@ -61,13 +90,25 @@ const Home = ({ userObj }) => {
           placeholder="What's on yout mind"
           maxLength={120}
         ></input>
+        <input type="file" accept="image/*" onChange={onFileChange} ref={fileInput}/>
         <input type="submit" value="Tweet" />
+        {attachment && (
+          //사진이 존재한다면 img태그로 사진을 보여줌 + 취소버튼
+          <>
+            <img src={attachment} width="50px" height="50px" alt="img" />
+            <button onClick={onClearAttachment}>Clear</button>
+          </>
+        )}
       </form>
       <div>
         {/* 트위팅 내용들을 가져옴 */}
         {nweets.map((i) => (
-          <Nweet key={i.id} nweetObj={i} isOwner={i.creatorId=== userObj.uid}/>
-                                        // 여기에서 isOwner값을 넘겨줍니다
+          <Nweet
+            key={i.id}
+            nweetObj={i}
+            isOwner={i.creatorId === userObj.uid}
+          />
+          // 여기에서 isOwner값을 넘겨줍니다
         ))}
       </div>
     </div>
