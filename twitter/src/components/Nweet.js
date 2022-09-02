@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
-import { dbService } from 'fbase'
-
+import { storageService, dbService } from 'fbase'
+import { deleteObject, ref } from 'firebase/storage'
 
 const Nweet = ({ nweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false)
@@ -9,12 +9,24 @@ const Nweet = ({ nweetObj, isOwner }) => {
   const [newNweet, setNewNweet] = useState(nweetObj.text)
   //수정을 해도 기존의 값에서 수정해야 하므로 디폴트를 nweetObj.text로
 
+  //현재 firestore에 있는 사진의 public url을 ref의 2번째 인자로 넣어주면
+  //파일의 reference를 받아옵니다
+  const desertRef = ref(storageService, nweetObj.attachmentUrl)
+
   const onDetleClick = async () => {
     const ok = window.confirm('Are you sure you want to delete this tweet?')
     //ok값은 true or false
     if (ok) {
       //console.log(nweetObj.id)
+
+      //해당하는 트윗을 Firestore 삭제 (이건 이전에 트위팅 삭제할 때 사용했던 것임)
       await deleteDoc(doc(dbService, 'tweets', `${nweetObj.id}`))
+
+       //삭제하려는 트윗에 이미지 파일이 있는 경우 storage에서 이미지 삭제
+       if (nweetObj.attachmentUrl !== '') {
+				//deleteObject사용. 인자로 삭제하고자 하는 reference를 넣어줌
+        await deleteObject(desertRef)
+      }
     }
   }
 
@@ -31,14 +43,13 @@ const Nweet = ({ nweetObj, isOwner }) => {
     e.preventDefault()
     //console.log(newNweet)
 
-    const updateResult=doc(dbService, 'tweets', `${nweetObj.id}`)
-    await updateDoc(updateResult,{
-      text:newNweet
+    const updateResult = doc(dbService, 'tweets', `${nweetObj.id}`)
+    await updateDoc(updateResult, {
+      text: newNweet,
     })
 
     alert('Update complete!')
     setEditing(false)
-
   }
 
   return (
@@ -54,7 +65,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
               value={newNweet}
               required
             />
-            <input type="submit" value="Update Nweet"/>
+            <input type="submit" value="Update Nweet" />
           </form>
           <button onClick={toggleEditing}>Cancel</button>
         </div>
@@ -63,7 +74,14 @@ const Nweet = ({ nweetObj, isOwner }) => {
         <div>
           <h4>{nweetObj.text}</h4>
           {/* attachmentUrl가 존재하면 사진과 같이 보여줌 */}
-          {nweetObj.attachmentUrl && <img src={nweetObj.attachmentUrl} width="50px" height="50px" alt=""/>}
+          {nweetObj.attachmentUrl && (
+            <img
+              src={nweetObj.attachmentUrl}
+              width="50px"
+              height="50px"
+              alt=""
+            />
+          )}
           {isOwner && (
             <div>
               <button onClick={onDetleClick}>Delete Nweet</button>
