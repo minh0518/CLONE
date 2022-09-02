@@ -9,13 +9,14 @@ import {
 import { dbService } from 'fbase'
 import { storageService } from 'fbase'
 import Nweet from 'components/Nweet'
-import { ref,uploadString } from "firebase/storage";
-import { v4 as uuidv4} from "uuid";
+import { getDownloadURL, ref, uploadString } from 'firebase/storage'
+import { v4 as uuidv4 } from 'uuid'
 
 const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('')
   const [nweets, setNweets] = useState([])
-  const [attachment, setAttachement] = useState()
+  const [attachment, setAttachement] = useState('')
+  //반드시 빈 문자열로 해줘야 함
 
   //console.log(userObj)
 
@@ -40,17 +41,33 @@ const Home = ({ userObj }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault()
-    // const doc = await addDoc(collection(dbService, 'tweets'), {
-    //   text: nweet,
-    //   createdAt: Date.now(),
-    //   creatorId: userObj.uid,
-    // })
-    // setNweet('')
 
-    const fileRef=ref(storageService,`${userObj.uid}/${uuidv4()}`)
-    const response = await uploadString(fileRef,attachment,'data_url')
-    
-    //console.log(response)
+    //attachmentUrl을 상위에다가 변수로 선언
+    let attachmentUrl = ''
+
+    //사진을 우리가 첨부해서 attachment 상태값이 존재한다면
+    if (attachment !== '') {
+      //fileRef에서 attachmentRef로 변수명 수정함
+      const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`)
+      const response = await uploadString(attachmentRef, attachment, 'data_url')
+
+      console.log(response)
+      attachmentUrl = await getDownloadURL(attachmentRef)
+      //사진 public url까지 받아옴
+    }
+
+    //사진 url과 트위팅을 동시에 진행
+    const nweetObj = {
+      text: nweet,
+      createdAt: Date.now(),
+      creatorId: userObj.uid,
+      attachmentUrl,
+      //만약 사진을 첨부하지 않아서 위의 if문에 걸리지 않았다면
+      //attachmentUrl이 초기값대로 빈 문자열로 들어감
+    }
+    const doc = await addDoc(collection(dbService, 'tweets'), nweetObj)
+    setNweet('')
+    setAttachement('')
   }
 
   const onChange = (e) => {
@@ -66,25 +83,28 @@ const Home = ({ userObj }) => {
 
     const reader = new FileReader()
 
+    //선택된 파일이 있을 경우에만 readAsDataURL로 읽어옴
+    if (theFile) {
+      reader.readAsDataURL(theFile)
+    }
+    //readAsDataURL로 읽어져야 아래 onloadend 가 실행이 되는 것임
+    //readAsDataURL이 실행되지 않으면 onloadend 는 실행이 안됨
     //파일이 바로 읽히진 않기 때문에 이벤트 리스너를 추가
     reader.onloadend = (finishedEvent) => {
-      //console.log(finishedEvent)
+      console.log(finishedEvent)
 
       const { currentTarget: result } = finishedEvent
 
       setAttachement(result.result)
     }
-    reader.readAsDataURL(theFile)
   }
 
   const onClearAttachment = (e) => {
     setAttachement(null)
-    fileInput.current.value=''
+    fileInput.current.value = ''
   }
 
-
-  const fileInput=useRef()
-
+  const fileInput = useRef()
 
   return (
     <div>
@@ -98,7 +118,12 @@ const Home = ({ userObj }) => {
           placeholder="What's on yout mind"
           maxLength={120}
         ></input>
-        <input type="file" accept="image/*" onChange={onFileChange} ref={fileInput}/>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={onFileChange}
+          ref={fileInput}
+        />
         <input type="submit" value="Tweet" />
         {attachment && (
           //사진이 존재한다면 img태그로 사진을 보여줌 + 취소버튼

@@ -62,6 +62,8 @@ const Nweet = ({ nweetObj, isOwner }) => {
         //editing상태가 아니라면 기존의 트위팅 내용들을 보여줌
         <div>
           <h4>{nweetObj.text}</h4>
+          {/* attachmentUrl가 존재하면 사진과 같이 보여줌 */}
+          {nweetObj.attachmentUrl && <img src={nweetObj.attachmentUrl} width="50px" height="50px" alt=""/>}
           {isOwner && (
             <div>
               <button onClick={onDetleClick}>Delete Nweet</button>
