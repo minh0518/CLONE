@@ -10,19 +10,19 @@ const AppRouter = ({userObj,isLoggedIn}) => {
   return (
     <Router>
       {isLoggedIn && <Navigation/>} 
-      {/* isLoggedInÀÌ true¸é Navigation */}
+      {/* isLoggedInì´ trueë©´ Navigation */}
       <Routes>
         {isLoggedIn ? (
           <>
             <Route path="/" element={<Home userObj={userObj}/>}></Route>
-            <Route path="/profile" element={<Profile/>}></Route>
+            <Route path="/profile" element={<Profile userObj={userObj}/>}></Route>
           </>
-          // ¿©·¯°³°¡ ÀÖÀ¸´Ï±î Fragment·Î °¨½ÎÁà¾ß ÇÔ
+          // ì—¬ëŸ¬ê°œê°€ ìˆìœ¼ë‹ˆê¹Œ Fragmentë¡œ ê°ì‹¸ì¤˜ì•¼ í•¨
         ) : (
           <>
           <Route path="/" element={<Auth />}></Route>
           
-          {/* ·Î±×¾Æ¿ôµÆÀ» ¶§ÀÇ °æ·Î Ãß°¡*/}
+          {/* ë¡œê·¸ì•„ì›ƒëì„ ë•Œì˜ ê²½ë¡œ ì¶”ê°€*/}
           {/* <Route path="*" element={<Navigate replace to="/profile"/>} /> */}
           </>
         )}

@@ -16,21 +16,21 @@ const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('')
   const [nweets, setNweets] = useState([])
   const [attachment, setAttachement] = useState('')
-  //¹Ýµå½Ã ºó ¹®ÀÚ¿­·Î ÇØÁà¾ß ÇÔ
+  //ë°˜ë“œì‹œ ë¹ˆ ë¬¸ìžì—´ë¡œ í•´ì¤˜ì•¼ í•¨
 
   //console.log(userObj)
 
   useEffect(() => {
     const q = query(
       collection(dbService, 'tweets'),
-      orderBy('createdAt', 'desc'), //asc³ª desc·Î ¿À¸§Â÷¼ø,³»¸²Â÷¼ø ¼³Á¤°¡´É
+      orderBy('createdAt', 'desc'), //ascë‚˜ descë¡œ ì˜¤ë¦„ì°¨ìˆœ,ë‚´ë¦¼ì°¨ìˆœ ì„¤ì •ê°€ëŠ¥
     )
     onSnapshot(q, (snapshot) => {
       const nweetArray = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }))
-      //.docs´Â °´Ã¼µé·Î ÀÌ·ïÁø ¹è¿­À» ¸®ÅÏÇÕ´Ï´Ù
+      //.docsëŠ” ê°ì²´ë“¤ë¡œ ì´ë¤„ì§„ ë°°ì—´ì„ ë¦¬í„´í•©ë‹ˆë‹¤
 
       //console.log(nweetArray)
       setNweets(nweetArray)
@@ -42,28 +42,28 @@ const Home = ({ userObj }) => {
   const onSubmit = async (e) => {
     e.preventDefault()
 
-    //attachmentUrlÀ» »óÀ§¿¡´Ù°¡ º¯¼ö·Î ¼±¾ð
+    //attachmentUrlì„ ìƒìœ„ì—ë‹¤ê°€ ë³€ìˆ˜ë¡œ ì„ ì–¸
     let attachmentUrl = ''
 
-    //»çÁøÀ» ¿ì¸®°¡ Ã·ºÎÇØ¼­ attachment »óÅÂ°ªÀÌ Á¸ÀçÇÑ´Ù¸é
+    //ì‚¬ì§„ì„ ìš°ë¦¬ê°€ ì²¨ë¶€í•´ì„œ attachment ìƒíƒœê°’ì´ ì¡´ìž¬í•œë‹¤ë©´
     if (attachment !== '') {
-      //fileRef¿¡¼­ attachmentRef·Î º¯¼ö¸í ¼öÁ¤ÇÔ
+      //fileRefì—ì„œ attachmentRefë¡œ ë³€ìˆ˜ëª… ìˆ˜ì •í•¨
       const attachmentRef = ref(storageService, `${userObj.uid}/${uuidv4()}`)
       const response = await uploadString(attachmentRef, attachment, 'data_url')
 
       console.log(response)
       attachmentUrl = await getDownloadURL(attachmentRef)
-      //»çÁø public url±îÁö ¹Þ¾Æ¿È
+      //ì‚¬ì§„ public urlê¹Œì§€ ë°›ì•„ì˜´
     }
 
-    //»çÁø url°ú Æ®À§ÆÃÀ» µ¿½Ã¿¡ ÁøÇà
+    //ì‚¬ì§„ urlê³¼ íŠ¸ìœ„íŒ…ì„ ë™ì‹œì— ì§„í–‰
     const nweetObj = {
       text: nweet,
       createdAt: Date.now(),
       creatorId: userObj.uid,
       attachmentUrl,
-      //¸¸¾à »çÁøÀ» Ã·ºÎÇÏÁö ¾Ê¾Æ¼­ À§ÀÇ if¹®¿¡ °É¸®Áö ¾Ê¾Ò´Ù¸é
-      //attachmentUrlÀÌ ÃÊ±â°ª´ë·Î ºó ¹®ÀÚ¿­·Î µé¾î°¨
+      //ë§Œì•½ ì‚¬ì§„ì„ ì²¨ë¶€í•˜ì§€ ì•Šì•„ì„œ ìœ„ì˜ ifë¬¸ì— ê±¸ë¦¬ì§€ ì•Šì•˜ë‹¤ë©´
+      //attachmentUrlì´ ì´ˆê¸°ê°’ëŒ€ë¡œ ë¹ˆ ë¬¸ìžì—´ë¡œ ë“¤ì–´ê°
     }
     const doc = await addDoc(collection(dbService, 'tweets'), nweetObj)
     setNweet('')
@@ -83,13 +83,13 @@ const Home = ({ userObj }) => {
 
     const reader = new FileReader()
 
-    //¼±ÅÃµÈ ÆÄÀÏÀÌ ÀÖÀ» °æ¿ì¿¡¸¸ readAsDataURL·Î ÀÐ¾î¿È
+    //ì„ íƒëœ íŒŒì¼ì´ ìžˆì„ ê²½ìš°ì—ë§Œ readAsDataURLë¡œ ì½ì–´ì˜´
     if (theFile) {
       reader.readAsDataURL(theFile)
     }
-    //readAsDataURL·Î ÀÐ¾îÁ®¾ß ¾Æ·¡ onloadend °¡ ½ÇÇàÀÌ µÇ´Â °ÍÀÓ
-    //readAsDataURLÀÌ ½ÇÇàµÇÁö ¾ÊÀ¸¸é onloadend ´Â ½ÇÇàÀÌ ¾ÈµÊ
-    //ÆÄÀÏÀÌ ¹Ù·Î ÀÐÈ÷Áø ¾Ê±â ¶§¹®¿¡ ÀÌº¥Æ® ¸®½º³Ê¸¦ Ãß°¡
+    //readAsDataURLë¡œ ì½ì–´ì ¸ì•¼ ì•„ëž˜ onloadend ê°€ ì‹¤í–‰ì´ ë˜ëŠ” ê²ƒìž„
+    //readAsDataURLì´ ì‹¤í–‰ë˜ì§€ ì•Šìœ¼ë©´ onloadend ëŠ” ì‹¤í–‰ì´ ì•ˆë¨
+    //íŒŒì¼ì´ ë°”ë¡œ ì½ížˆì§„ ì•Šê¸° ë•Œë¬¸ì— ì´ë²¤íŠ¸ ë¦¬ìŠ¤ë„ˆë¥¼ ì¶”ê°€
     reader.onloadend = (finishedEvent) => {
       console.log(finishedEvent)
 
@@ -109,8 +109,8 @@ const Home = ({ userObj }) => {
   return (
     <div>
       <form onSubmit={onSubmit}>
-        {/*  e.preventDefault()¾øÀ¸¸é ±×³É formÅÂ±×»óÅÂ¿¡¼­
-            ¹öÆ°¸¸ Å¬¸¯ÇØµµ »õ·Î°íÄ§ÀÌ ¹ß»ýÇÔ */}
+        {/*  e.preventDefault()ì—†ìœ¼ë©´ ê·¸ëƒ¥ formíƒœê·¸ìƒíƒœì—ì„œ
+            ë²„íŠ¼ë§Œ í´ë¦­í•´ë„ ìƒˆë¡œê³ ì¹¨ì´ ë°œìƒí•¨ */}
         <input
           value={nweet}
           onChange={onChange}
@@ -126,7 +126,7 @@ const Home = ({ userObj }) => {
         />
         <input type="submit" value="Tweet" />
         {attachment && (
-          //»çÁøÀÌ Á¸ÀçÇÑ´Ù¸é imgÅÂ±×·Î »çÁøÀ» º¸¿©ÁÜ + Ãë¼Ò¹öÆ°
+          //ì‚¬ì§„ì´ ì¡´ìž¬í•œë‹¤ë©´ imgíƒœê·¸ë¡œ ì‚¬ì§„ì„ ë³´ì—¬ì¤Œ + ì·¨ì†Œë²„íŠ¼
           <>
             <img src={attachment} width="50px" height="50px" alt="img" />
             <button onClick={onClearAttachment}>Clear</button>
@@ -134,14 +134,14 @@ const Home = ({ userObj }) => {
         )}
       </form>
       <div>
-        {/* Æ®À§ÆÃ ³»¿ëµéÀ» °¡Á®¿È */}
+        {/* íŠ¸ìœ„íŒ… ë‚´ìš©ë“¤ì„ ê°€ì ¸ì˜´ */}
         {nweets.map((i) => (
           <Nweet
             key={i.id}
             nweetObj={i}
             isOwner={i.creatorId === userObj.uid}
           />
-          // ¿©±â¿¡¼­ isOwner°ªÀ» ³Ñ°ÜÁÝ´Ï´Ù
+          // ì—¬ê¸°ì—ì„œ isOwnerê°’ì„ ë„˜ê²¨ì¤ë‹ˆë‹¤
         ))}
       </div>
     </div>

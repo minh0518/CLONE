@@ -11,22 +11,22 @@ const App = () => {
 
   useEffect(() => {
     onAuthStateChanged(authService,(user)=>{
-      if(user){ //·Î±×ÀÎ µÇ¾îÀÖ´Â »óÅÂ
+      if(user){ //ë¡œê·¸ì¸ ë˜ì–´ìˆëŠ” ìƒíƒœ
         setIsLoggedIn(true)
         setUserObj(user)
       }
-      else{  //·Î±×¾Æ¿ô µÇ¾îÀÖ´Â »óÅÂ
+      else{  //ë¡œê·¸ì•„ì›ƒ ë˜ì–´ìˆëŠ” ìƒíƒœ
         setIsLoggedIn(false)
       }
-      setInit(true) //Firbase°¡ ·Îµå,ÃÊ±âÈ­°¡ ´Ù µÆ´Ù´Â °ÍÀ» ÀÇ¹Ì
+      setInit(true) //Firbaseê°€ ë¡œë“œ,ì´ˆê¸°í™”ê°€ ë‹¤ ëë‹¤ëŠ” ê²ƒì„ ì˜ë¯¸
     })
   })
 
   return (
     <div>
-                        {/* AppRouter¿¡ º¸³»ÁÜ */}
+                        {/* AppRouterì— ë³´ë‚´ì¤Œ */}
       {init ?<AppRouter userObj={userObj} isLoggedIn={isLoggedIn} /> :'Initializing...'}
-      {/* Firbase°¡ ·Îµå ¿Ï·á µÆ´Ù¸é º¸¿©ÁÜ */}
+      {/* Firbaseê°€ ë¡œë“œ ì™„ë£Œ ëë‹¤ë©´ ë³´ì—¬ì¤Œ */}
 
       <footer>&copy; {new Date().getFullYear()} Twiiter</footer>
     </div>

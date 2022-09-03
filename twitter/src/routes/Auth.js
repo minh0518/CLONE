@@ -14,8 +14,8 @@ const Auth = () => {
   const [newAccount, setNewAccount] = useState(true)
   const [error,setError]=useState("")
 
-  //e.target±¸Á¶ºÐÇØ ÇÒ´çÀ» ÀÌ¿ëÇØ¼­ onChange ÇÏ³ª·Î ¿©·¯°³ÀÇ inputÀ» °ü¸®
-  //ÀÌ·¸°Ô ÇÏ·Á¸é ´ë½Å °¢ input¿¡ ¹Ýµå½Ã name¼Ó¼ºÀ» ÁöÁ¤ÇØ Áà¾ß ÇÔ
+  //e.targetêµ¬ì¡°ë¶„í•´ í• ë‹¹ì„ ì´ìš©í•´ì„œ onChange í•˜ë‚˜ë¡œ ì—¬ëŸ¬ê°œì˜ inputì„ ê´€ë¦¬
+  //ì´ë ‡ê²Œ í•˜ë ¤ë©´ ëŒ€ì‹  ê° inputì— ë°˜ë“œì‹œ nameì†ì„±ì„ ì§€ì •í•´ ì¤˜ì•¼ í•¨
   const onChange = (e) => {
     const { name, value } = e.target
     // const {target:{name,value}}=e
@@ -32,8 +32,8 @@ const Auth = () => {
 
     try {
       if (newAccount) {
-        //new Account°¡ true¸é »õ·Î¿î °èÁ¤À» »ý¼ºÇÏ´Â ·ÎÁ÷
-        //°èÁ¤À» »ý¼ºÇÏ°Ô µÇ¸é ÀÚµ¿À¸·Î ·Î±×ÀÎÀÌ µÊ
+        //new Accountê°€ trueë©´ ìƒˆë¡œìš´ ê³„ì •ì„ ìƒì„±í•˜ëŠ” ë¡œì§
+        //ê³„ì •ì„ ìƒì„±í•˜ê²Œ ë˜ë©´ ìžë™ìœ¼ë¡œ ë¡œê·¸ì¸ì´ ë¨
         const data = await createUserWithEmailAndPassword(
           authService,
           email,
@@ -41,7 +41,7 @@ const Auth = () => {
         )
         console.log(data)
       } else {
-        //new Account°¡ false¸é ·Î±×ÀÎ ·ÎÁ÷
+        //new Accountê°€ falseë©´ ë¡œê·¸ì¸ ë¡œì§
 
         const data = await signInWithEmailAndPassword(
           authService,
@@ -65,7 +65,7 @@ const Auth = () => {
 
     let provider
 
-    //±¸±Û°ú ±êÇãºê provider»ý¼º
+    //êµ¬ê¸€ê³¼ ê¹ƒí—ˆë¸Œ providerìƒì„±
     if(name==='google'){
       provider=new GoogleAuthProvider()
     }
@@ -73,7 +73,7 @@ const Auth = () => {
       provider=new GithubAuthProvider()
     }
 
-    //signInWithPopup»ç¿ë
+    //signInWithPopupì‚¬ìš©
     const data=await signInWithPopup(authService,provider)
     console.log(data)
 

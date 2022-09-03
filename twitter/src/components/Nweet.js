@@ -3,34 +3,35 @@ import { doc, deleteDoc, updateDoc } from 'firebase/firestore'
 import { storageService, dbService } from 'fbase'
 import { deleteObject, ref } from 'firebase/storage'
 
+
 const Nweet = ({ nweetObj, isOwner }) => {
   const [editing, setEditing] = useState(false)
-  //¼öÁ¤»óÅÂÀÎÁö ¾Æ´ÑÁö
+  //ìˆ˜ì •ìƒíƒœì¸ì§€ ì•„ë‹Œì§€
   const [newNweet, setNewNweet] = useState(nweetObj.text)
-  //¼öÁ¤À» ÇØµµ ±âÁ¸ÀÇ °ª¿¡¼­ ¼öÁ¤ÇØ¾ß ÇÏ¹Ç·Î µðÆúÆ®¸¦ nweetObj.text·Î
+  //ìˆ˜ì •ì„ í•´ë„ ê¸°ì¡´ì˜ ê°’ì—ì„œ ìˆ˜ì •í•´ì•¼ í•˜ë¯€ë¡œ ë””í´íŠ¸ë¥¼ nweetObj.textë¡œ
 
-  //ÇöÀç firestore¿¡ ÀÖ´Â »çÁøÀÇ public urlÀ» refÀÇ 2¹øÂ° ÀÎÀÚ·Î ³Ö¾îÁÖ¸é
-  //ÆÄÀÏÀÇ reference¸¦ ¹Þ¾Æ¿É´Ï´Ù
+  //í˜„ìž¬ firestoreì— ìžˆëŠ” ì‚¬ì§„ì˜ public urlì„ refì˜ 2ë²ˆì§¸ ì¸ìžë¡œ ë„£ì–´ì£¼ë©´
+  //íŒŒì¼ì˜ referenceë¥¼ ë°›ì•„ì˜µë‹ˆë‹¤
   const desertRef = ref(storageService, nweetObj.attachmentUrl)
 
   const onDetleClick = async () => {
     const ok = window.confirm('Are you sure you want to delete this tweet?')
-    //ok°ªÀº true or false
+    //okê°’ì€ true or false
     if (ok) {
       //console.log(nweetObj.id)
 
-      //ÇØ´çÇÏ´Â Æ®À­À» Firestore »èÁ¦ (ÀÌ°Ç ÀÌÀü¿¡ Æ®À§ÆÃ »èÁ¦ÇÒ ¶§ »ç¿ëÇß´ø °ÍÀÓ)
+      //í•´ë‹¹í•˜ëŠ” íŠ¸ìœ—ì„ Firestore ì‚­ì œ (ì´ê±´ ì´ì „ì— íŠ¸ìœ„íŒ… ì‚­ì œí•  ë•Œ ì‚¬ìš©í–ˆë˜ ê²ƒìž„)
       await deleteDoc(doc(dbService, 'tweets', `${nweetObj.id}`))
 
-       //»èÁ¦ÇÏ·Á´Â Æ®À­¿¡ ÀÌ¹ÌÁö ÆÄÀÏÀÌ ÀÖ´Â °æ¿ì storage¿¡¼­ ÀÌ¹ÌÁö »èÁ¦
+       //ì‚­ì œí•˜ë ¤ëŠ” íŠ¸ìœ—ì— ì´ë¯¸ì§€ íŒŒì¼ì´ ìžˆëŠ” ê²½ìš° storageì—ì„œ ì´ë¯¸ì§€ ì‚­ì œ
        if (nweetObj.attachmentUrl !== '') {
-				//deleteObject»ç¿ë. ÀÎÀÚ·Î »èÁ¦ÇÏ°íÀÚ ÇÏ´Â reference¸¦ ³Ö¾îÁÜ
+				//deleteObjectì‚¬ìš©. ì¸ìžë¡œ ì‚­ì œí•˜ê³ ìž í•˜ëŠ” referenceë¥¼ ë„£ì–´ì¤Œ
         await deleteObject(desertRef)
       }
     }
   }
 
-  // Å¬¸¯ÇÏ¸é ¼öÁ¤»óÅÂ ÀÎÁö ¾Æ´ÑÁö º¯°æ
+  // í´ë¦­í•˜ë©´ ìˆ˜ì •ìƒíƒœ ì¸ì§€ ì•„ë‹Œì§€ ë³€ê²½
   const toggleEditing = () => {
     setEditing((prev) => !prev)
   }
@@ -53,7 +54,7 @@ const Nweet = ({ nweetObj, isOwner }) => {
   }
 
   return (
-    //editing»óÅÂÀÌ¸é ÀÔ·ÂÃ¢ÀÌ Ãß°¡°¡ µÇ°í Cancel¹öÆ°À¸·Î Ãë¼Ò °¡´É
+    //editingìƒíƒœì´ë©´ ìž…ë ¥ì°½ì´ ì¶”ê°€ê°€ ë˜ê³  Cancelë²„íŠ¼ìœ¼ë¡œ ì·¨ì†Œ ê°€ëŠ¥
     <div>
       {editing ? (
         <div>
@@ -70,10 +71,10 @@ const Nweet = ({ nweetObj, isOwner }) => {
           <button onClick={toggleEditing}>Cancel</button>
         </div>
       ) : (
-        //editing»óÅÂ°¡ ¾Æ´Ï¶ó¸é ±âÁ¸ÀÇ Æ®À§ÆÃ ³»¿ëµéÀ» º¸¿©ÁÜ
+        //editingìƒíƒœê°€ ì•„ë‹ˆë¼ë©´ ê¸°ì¡´ì˜ íŠ¸ìœ„íŒ… ë‚´ìš©ë“¤ì„ ë³´ì—¬ì¤Œ
         <div>
           <h4>{nweetObj.text}</h4>
-          {/* attachmentUrl°¡ Á¸ÀçÇÏ¸é »çÁø°ú °°ÀÌ º¸¿©ÁÜ */}
+          {/* attachmentUrlê°€ ì¡´ìž¬í•˜ë©´ ì‚¬ì§„ê³¼ ê°™ì´ ë³´ì—¬ì¤Œ */}
           {nweetObj.attachmentUrl && (
             <img
               src={nweetObj.attachmentUrl}
