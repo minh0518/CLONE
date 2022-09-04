@@ -35,6 +35,10 @@ const App = () => {
       } else {
         //로그아웃 되어있는 상태
         setIsLoggedIn(false)
+
+        //언제부턴가 로그아웃을 할 때 이것도 추가가 됨...
+        setUserObj(null)
+
       }
       setInit(true) //Firbase가 로드,초기화가 다 됐다는 것을 의미
     })
