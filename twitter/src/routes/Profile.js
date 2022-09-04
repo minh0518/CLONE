@@ -3,7 +3,7 @@ import { signOut, updateProfile } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore'
-import { async } from '@firebase/util'
+
 
 const Profile = ({ userObj ,refreshUser}) => {
   const navigate = useNavigate()
@@ -31,6 +31,10 @@ const Profile = ({ userObj ,refreshUser}) => {
         refreshUser()
     }
   }
+
+  
+  
+  
 
   useEffect(() => {
     const getMyNweets = async () => {

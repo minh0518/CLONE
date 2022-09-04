@@ -9,7 +9,9 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userObj, setUserObj] = useState(null)
 
+
   useEffect(() => {
+  
     onAuthStateChanged(authService, (user) => {
       if (user) {
         //로그인 되어있는 상태
@@ -36,18 +38,25 @@ const App = () => {
       }
       setInit(true) //Firbase가 로드,초기화가 다 됐다는 것을 의미
     })
-  })
+  },[]) 
+  //의존성 배열로 반드시 빈 배열을 넣어줘야 합니다
+  //이렇게 하지 않으면 여기서 무한 리렌더링이 발생합니다
+  //그러면 App아래 있는 모든 컴포넌트에서도 무한 리렌더링이 발생합니다
 
   //user를 새로고침하는 기능
   const refreshUser = () => {
     //console.log(authService.currentUser)
 
     //setUserObj(authService.currentUser)
+
+    
     const user=authService.currentUser
     setUserObj({
       displayName: user.displayName,
       uid: user.uid
     })
+
+  
   }
 
   return (
