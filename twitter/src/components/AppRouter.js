@@ -13,7 +13,7 @@ import Navigation from './Navigation'
 
 const AppRouter = ({ userObj, isLoggedIn, refreshUser }) => {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL} >
       {isLoggedIn && <Navigation userObj={userObj} />}
       {/* isLoggedIn이 true면 Navigation */}
       <Routes>
