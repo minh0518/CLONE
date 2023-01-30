@@ -17,7 +17,7 @@ const Home = () => {
     // .data에도 써야함
 
     setMovies(json.data.movies)
-    //data라는 부분이 또 있는거임
+    //받아온 json객체의 .data안에 또다른 data라는 부분이 있는것임
     setLoading(false)
   }
 
