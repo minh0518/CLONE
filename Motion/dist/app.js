@@ -1,4 +1,4 @@
-import { PageComponent } from './components/page.js';
+import { PageComponent } from './components/page/page.js';
 //자동 import하면 .js가 생략되므로 같이 작성해줍니다
 class App {
     //어플리케이션을 추가할 최상위 루트 요소
