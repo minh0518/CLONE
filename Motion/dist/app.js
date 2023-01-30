@@ -6,10 +6,10 @@ class App {
     constructor(appRoot) {
         this.page = new PageComponent();
         this.page.attachTo(appRoot);
-        //지금은 이미지 url과 제목을 입력받은 dialog가 없으므로 임의로 코드상에서 작성
+        // PageComponent가 상속하고 있는 baseComponents의 attachTo() 사용
         const image = new ImageComponent('Image Title', 'https://picsum.photos/200/300');
         image.attachTo(appRoot, 'beforeend');
-        //제일 마지막에 추가할것이므로 
+        // ImageComponent가 상속하고 있는 baseComponents의 attachTo() 사용
     }
 }
 // 생성자 appRoot로써 .document 요소를 사용

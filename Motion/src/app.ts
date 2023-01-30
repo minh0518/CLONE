@@ -7,15 +7,15 @@ class App {
 
   //어플리케이션을 추가할 최상위 루트 요소
   constructor(appRoot: HTMLElement) {
-    
+
     this.page = new PageComponent();
     this.page.attachTo(appRoot);
+    // PageComponent가 상속하고 있는 baseComponents의 attachTo() 사용
 
-
-    //지금은 이미지 url과 제목을 입력받은 dialog가 없으므로 임의로 코드상에서 작성
     const image=new ImageComponent('Image Title','https://picsum.photos/200/300')
     image.attachTo(appRoot,'beforeend')
-                            //제일 마지막에 추가할것이므로 
+    // ImageComponent가 상속하고 있는 baseComponents의 attachTo() 사용
+                            
   }
 }
 
