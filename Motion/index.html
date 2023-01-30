@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motion</title>
+
+    <!-- css파일 연결 -->
+    <link rel="stylesheet" href="./style/style.css" />
+    <script type="module" src="./dist/app.js" defer></script>
+    <!-- 다수의 js파일로 모듈을 이용하고     비동기적으로 다운 받게 함 -->
+  </head>
+
+  <body>
+    <!-- 어플리케이션 전부를 여기에 넣음 (전체적으로 묶어서 스타일링 하기 위해)-->
+    <div class="app">
+      <header class="banner">
+        <h1 class="banner_title">Motion</h1>
+        <ul class="control-panel">
+          <!-- id는 각각의 타입별로 다른 dialog를 보여줘야 하므로 -->
+          <li><button id="new-image" class="create-button">Image</button></li>
+          <li><button id="new-video" class="create-button">Video</button></li>
+          <li><button id="new-note" class="create-button">Note</button></li>
+          <li><button id="new-todo" class="create-button">Task</button></li>
+        </ul>
+      </header>
+
+      <!-- 이 부분은 동적으로 추가가 될 것이므로 비워둡니다 -->
+      <main class="document"></main>
+
+      <!-- footer 추가 -->
+      <footer class="footer">
+        <p>© Copyright by Dream Coding Academy. All rights reserved.</p>
+      </footer>
+    </div>
+  </body>
+</html>
